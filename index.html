@@ -31,7 +31,7 @@ datalist{display:none}input,select,textarea,button{font:inherit}button{cursor:po
 
 <section class="wrap section booking" id="booking" aria-labelledby="booking-title">
 <div class="booking-shell">
-<div class="booking-top"><div><span class="kicker">Service &amp; pickup requests</span><h2 id="booking-title">Tell us what your car needs.</h2></div><p class="booking-note">Review version: ₹10 payment and automatic booking confirmation are not enabled yet. You can choose services, a preferred time and pickup details below; nothing is submitted.</p></div>
+<div class="booking-top"><div><span class="kicker">Service &amp; pickup requests</span><h2 id="booking-title">Tell us what your car needs.</h2></div><p class="booking-note">Review your services, preferred time and pickup details below. This preview does not submit or confirm a booking.</p></div>
 <ol class="booking-progress" aria-label="Request steps"><li id="step-details" class="active" aria-current="step">1 · Your request</li><li id="step-review">2 · Review details</li></ol>
 <form id="booking-form" novalidate>
 <div id="booking-details">
@@ -50,7 +50,7 @@ datalist{display:none}input,select,textarea,button{font:inherit}button{cursor:po
 <p class="request-disclaimer">Your details stay in this open page and are not sent or saved. Edit them after reviewing; reloading clears them. This preview does not reserve a slot or request a pickup.</p>
 <div class="form-actions"><button class="btn btn-primary" type="submit">Review my request <span aria-hidden="true">→</span></button></div>
 </div>
-<div id="booking-review" hidden tabindex="-1"><h3 class="review-title">Check your request.</h3><pre id="request-summary" class="request-review"></pre><p id="delivery-explanation" class="request-disclaimer"></p><div class="form-actions"><button type="button" id="edit-request" class="btn">← Edit details</button><button id="unconfigured-request" class="btn" type="button" disabled>₹10 payment setup required</button></div><p id="booking-state" class="booking-state" role="status" aria-live="polite"></p><p class="request-disclaimer">This is a service request, not a confirmed appointment. No payment is collected here.</p></div>
+<div id="booking-review" hidden tabindex="-1"><h3 class="review-title">Check your request.</h3><pre id="request-summary" class="request-review"></pre><p id="delivery-explanation" class="request-disclaimer"></p><div class="form-actions"><button type="button" id="edit-request" class="btn">← Edit details</button></div><p id="booking-state" class="booking-state" role="status" aria-live="polite"></p><p class="request-disclaimer">This is a service request, not a confirmed appointment.</p></div>
 </form></div></section>
 
 <section class="wrap visit" id="visit" aria-labelledby="visit-title"><div class="visit-card"><div class="visit-info"><span class="kicker">Drop by</span><h2 id="visit-title">Your local pit stop.</h2><p class="address"><strong>Radhey Motors</strong><br>Near Wine Shop Badauli<br>Sector 154, Noida<br>Uttar Pradesh 201301</p><div class="hours"><span>Monday–Sunday</span><strong>9:00 am–10:00 pm*</strong></div><a class="btn" href="https://maps.app.goo.gl/LgSnLZ25tyofUeHa7?g_st=ac" target="_blank" rel="noopener noreferrer">Open in Google Maps<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></div><div class="location-art" role="img" aria-label="Decorative location illustration, not a street map"><svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-50 50 700 280M30-60l180 600M410-50l-80 600M-50 380l740-150" stroke="#c5d1b5" stroke-width="64" fill="none"/><path d="M-50 50 700 280M30-60l180 600M410-50l-80 600M-50 380l740-150" stroke="#eff1e6" stroke-width="28" fill="none"/><path d="M-50 50 700 280M30-60l180 600M410-50l-80 600M-50 380l740-150" stroke="#bec9ac" stroke-width="1" stroke-dasharray="8 8" fill="none"/><circle cx="512" cy="78" r="32" fill="#b7c8a1"/><circle cx="80" cy="370" r="44" fill="#b7c8a1"/><circle cx="460" cy="395" r="24" fill="#b7c8a1"/></svg><div class="location-label"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><strong>Sector 154</strong><span>Near Wine Shop Badauli</span></div><div class="not-map">Location illustration · not to scale</div></div></div></section>
@@ -61,7 +61,7 @@ datalist{display:none}input,select,textarea,button{font:inherit}button{cursor:po
 
 <script>
 'use strict';
-// Review-only UI. Payment and authoritative booking infrastructure are not connected.
+// Review-only UI. No request is submitted and no appointment is reserved.
 (function(){
  const form=document.getElementById('booking-form');
  const details=document.getElementById('booking-details');
@@ -100,12 +100,12 @@ datalist{display:none}input,select,textarea,button{font:inherit}button{cursor:po
   lines.push('Preferred date: '+(date.value||'Flexible / please call me'),'Preferred time: '+value('preferred-time'),'Arrival: '+(pickup.checked?'Pickup requested':'I will visit the workshop'));
   if(pickup.checked){lines.push('Pickup address: '+value('pickup-address'));if(value('pickup-landmark'))lines.push('Landmark: '+value('pickup-landmark'));}
   if(value('issue'))lines.push('Issue / notes: '+value('issue'));
-  lines.push('','Review only — not submitted. This is a request, not a confirmed booking. Payment and automatic confirmation are not enabled.');
+  lines.push('','Review only — not submitted. This is a request, not a confirmed booking.');
   const message=lines.join('\n');
   document.getElementById('request-summary').textContent=message;
   const info=document.getElementById('delivery-explanation');
   state.textContent='';
-  info.textContent='₹10 online payment and automatic confirmation are not enabled. These details have not been sent, no slot is reserved and no pickup is arranged.';
+  info.textContent='These details have not been sent, no slot is reserved and no pickup is arranged.';
   details.hidden=true;review.hidden=false;
   document.getElementById('step-details').classList.remove('active');document.getElementById('step-details').removeAttribute('aria-current');
   document.getElementById('step-review').classList.add('active');document.getElementById('step-review').setAttribute('aria-current','step');
